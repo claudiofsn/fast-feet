@@ -19,7 +19,6 @@ describe('Register Deliveryman', () => {
       name: 'Student Name',
       password: 'teste123',
       document: '12345678900',
-      role: DeliverymanRole.DELIVERYMAN,
     });
 
     expect(result.isRight()).toBeTruthy();
@@ -36,7 +35,6 @@ describe('Register Deliveryman', () => {
       name: 'Student Name',
       password,
       document: '12345678900',
-      role: DeliverymanRole.DELIVERYMAN,
     });
 
     const hashedPassword = await fakeHasher.hash(password);
