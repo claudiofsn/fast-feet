@@ -12,8 +12,11 @@ import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard';
 import { RolesGuard } from '@/infra/auth/roles.guard';
 import { UserRole } from '@/domain/enterprise/entities/user';
 import { EditDelivererDto } from '../dtos/edit-deliverer.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @Controller('/deliverers/:id')
+@ApiTags('Deliverers')
+@ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class EditDelivererController {
   constructor(private editUser: EditUserUseCase) {}

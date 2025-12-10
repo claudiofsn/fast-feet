@@ -2,6 +2,7 @@ import { UsersRepository } from '../repositories/users-repository';
 import { HashComparer } from '../cryptography/hash-comparer';
 import { Encrypter } from '../cryptography/encrypter';
 import { WrongCredentialsError } from './errors/wrong-credentials-error';
+import { Injectable } from '@nestjs/common';
 
 interface AuthenticateUserUseCaseRequest {
   cpf: string;
@@ -13,6 +14,7 @@ interface AuthenticateUserUseCaseResponse {
   refreshToken: string;
 }
 
+@Injectable()
 export class AuthenticateUserUseCase {
   constructor(
     private usersRepository: UsersRepository,

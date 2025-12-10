@@ -7,4 +7,5 @@ export abstract class Encrypter {
     payload: Record<string, unknown>,
     options?: EncrypterOptions,
   ): Promise<string>;
+  abstract decrypt(token: string): Promise<Record<string, unknown>>;
 }

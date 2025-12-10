@@ -4,11 +4,10 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
 import { z } from 'zod';
 import { Env } from '@/infra/env/env';
-import { UserRole } from '@/domain/enterprise/entities/user';
 
 const tokenPayloadSchema = z.object({
   sub: z.uuid(),
-  roles: z.array(z.enum(UserRole)),
+  roles: z.array(z.enum(['ADMIN', 'DELIVERER'])).optional(),
 });
 
 export type UserPayload = z.infer<typeof tokenPayloadSchema>;
@@ -20,12 +19,13 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      secretOrKey: publicKey,
-      algorithms: ['HS256'], // Use 'RS256' se estiver usando chaves RSA reais
+      secretOrKey: Buffer.from(publicKey, 'base64'),
+      algorithms: ['RS256'],
     });
   }
 
-  validate(payload: UserPayload) {
+  // eslint-disable-next-line @typescript-eslint/require-await
+  async validate(payload: UserPayload) {
     return tokenPayloadSchema.parse(payload);
   }
 }
