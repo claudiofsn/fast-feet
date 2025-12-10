@@ -14,6 +14,8 @@ import { CryptographyModule } from '@/infra/cryptography/cryptography.module';
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard';
 import { RolesGuard } from '@/infra/auth/roles.guard';
 import { AuthModule } from '@/infra/auth/auth.module';
+import { CreateRecipientController } from './create-recipient.controller';
+import { CreateRecipientUseCase } from '@/domain/application/use-cases/create-recipient';
 
 @Module({
   controllers: [
@@ -22,6 +24,7 @@ import { AuthModule } from '@/infra/auth/auth.module';
     FetchDeliverersController,
     AuthenticateController,
     RefreshTokenController,
+    CreateRecipientController,
   ],
   providers: [
     RegisterDelivererUseCase,
@@ -31,6 +34,7 @@ import { AuthModule } from '@/infra/auth/auth.module';
     RefreshTokenUseCase,
     JwtAuthGuard,
     RolesGuard,
+    CreateRecipientUseCase,
   ],
   imports: [AuthModule, DatabaseModule, CryptographyModule],
 })
