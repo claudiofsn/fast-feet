@@ -27,5 +27,5 @@
       "test/*": ["./test/*"]
     }
   },
-  "include": ["src", "test", "vitest.config.ts", "prisma.config.ts", "prisma/seed.ts"]
+  "include": ["src", "test", "vitest.config.ts", "prisma.config.ts", "prisma/seed.ts", "vitest.config.e2e.ts"]
 }
