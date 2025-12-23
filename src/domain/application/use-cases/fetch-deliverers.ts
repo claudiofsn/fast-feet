@@ -15,7 +15,7 @@ export class FetchDeliverersUseCase {
   constructor(private usersRepository: UsersRepository) {}
 
   async execute({
-    page,
+    page = 1,
   }: FetchDeliverersUseCaseRequest): Promise<FetchDeliverersUseCaseResponse> {
     const users = await this.usersRepository.findManyByRole(
       UserRole.DELIVERER,

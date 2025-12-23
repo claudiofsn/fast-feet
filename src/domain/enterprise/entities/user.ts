@@ -31,6 +31,11 @@ export class User extends Entity<UserProps> {
     return this.props.cpf;
   }
 
+  set cpf(cpf: string) {
+    this.props.cpf = cpf;
+    this.touch();
+  }
+
   get email() {
     return this.props.email;
   }
@@ -46,6 +51,11 @@ export class User extends Entity<UserProps> {
 
   get roles() {
     return this.props.roles;
+  }
+
+  set roles(roles: UserRole[]) {
+    this.props.roles = roles;
+    this.touch();
   }
 
   get createdAt() {

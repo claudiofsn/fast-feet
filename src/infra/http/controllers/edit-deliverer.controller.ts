@@ -25,12 +25,14 @@ export class EditDelivererController {
   @HttpCode(204)
   @Roles(UserRole.ADMIN)
   async handle(@Body() body: EditDelivererDto, @Param('id') userId: string) {
-    const { name, email } = body;
+    const { name, email, roles, cpf } = body;
 
     await this.editUser.execute({
       userId,
       name,
       email,
+      roles,
+      cpf,
     });
   }
 }

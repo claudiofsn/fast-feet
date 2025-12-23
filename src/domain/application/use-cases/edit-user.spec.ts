@@ -1,8 +1,9 @@
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository';
 import { EditUserUseCase } from './edit-user';
-import { User } from '@/domain/enterprise/entities/user';
+import { User, UserRole } from '@/domain/enterprise/entities/user';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { ResourceNotFoundError } from './errors/resource-not-found-error';
+import { makeUser } from 'test/factories/make-user';
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let sut: EditUserUseCase;
@@ -45,5 +46,20 @@ describe('Edit Deliverer', () => {
         name: 'John Doe',
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
+  });
+
+  it('should be able to edit roles of a user', async () => {
+    const user = makeUser();
+    await inMemoryUsersRepository.create(user);
+
+    await sut.execute({
+      userId: user.id.toString(),
+      roles: [UserRole.ADMIN, UserRole.DELIVERER],
+    });
+
+    expect(inMemoryUsersRepository.items[0].roles).toEqual([
+      UserRole.ADMIN,
+      UserRole.DELIVERER,
+    ]);
   });
 });
