@@ -11,35 +11,36 @@ import {
   ApiResponse,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import { RegisterDelivererUseCase } from '@/domain/application/use-cases/register-deliverer';
+import { RegisterUserUseCase } from '@/domain/application/use-cases/register-user';
 import { UserAlreadyExistsError } from '@/domain/application/use-cases/errors/user-already-exists-error';
 import { Roles } from '@/infra/auth/roles.decorator';
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard';
 import { RolesGuard } from '@/infra/auth/roles.guard';
 import { UserRole } from '@/domain/enterprise/entities/user';
-import { CreateDelivererDto } from '../dtos/create-deliverer.dto';
+import { CreateUserDto } from '../dtos/create-user.dto';
 
-@ApiTags('Deliverers')
+@ApiTags('Users')
 @ApiBearerAuth()
-@Controller('/deliverers')
+@Controller('/users')
 @UseGuards(JwtAuthGuard, RolesGuard)
-export class CreateDelivererController {
-  constructor(private registerDeliverer: RegisterDelivererUseCase) {}
+export class CreateUserController {
+  constructor(private registerUser: RegisterUserUseCase) {}
 
   @Post()
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Create a new deliverer' })
-  @ApiResponse({ status: 201, description: 'Deliverer successfully created.' })
+  @ApiOperation({ summary: 'Create a new user' })
+  @ApiResponse({ status: 201, description: 'User successfully created.' })
   @ApiResponse({ status: 409, description: 'User already exists.' })
-  async handle(@Body() body: CreateDelivererDto) {
-    const { name, email, cpf, password } = body;
+  async handle(@Body() body: CreateUserDto) {
+    const { name, email, cpf, password, roles } = body;
 
     try {
-      await this.registerDeliverer.execute({
+      await this.registerUser.execute({
         name,
         email,
         cpf,
         password,
+        roles,
       });
     } catch (error) {
       if (error instanceof UserAlreadyExistsError) {

@@ -1,7 +1,7 @@
 import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 
-const fetchDeliverersQuerySchema = z.object({
+const fetchUsersQuerySchema = z.object({
   page: z.coerce // Coerce força a conversão do input (string da URL) para o tipo abaixo
     .number()
     .min(1)
@@ -9,6 +9,4 @@ const fetchDeliverersQuerySchema = z.object({
     .default(1), // Se não enviar nada, assume página 1
 });
 
-export class FetchDeliverersQueryDto extends createZodDto(
-  fetchDeliverersQuerySchema,
-) {}
+export class FetchUsersQueryDto extends createZodDto(fetchUsersQuerySchema) {}

@@ -19,6 +19,7 @@ export class PrismaUserMapper {
         }),
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
+        deletedAt: raw.deletedAt,
       },
       new UniqueEntityID(raw.id),
     );
@@ -34,6 +35,7 @@ export class PrismaUserMapper {
       roles: user.roles,
       createdAt: user.createdAt,
       updatedAt: user.updatedAt,
+      deletedAt: user.deletedAt,
     };
   }
 }

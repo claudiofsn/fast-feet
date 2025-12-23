@@ -1,10 +1,10 @@
-import { RegisterDelivererUseCase } from '@/domain/application/use-cases/register-deliverer';
+import { RegisterUserUseCase } from '@/domain/application/use-cases/register-user';
 import { Module } from '@nestjs/common';
-import { CreateDelivererController } from './create-deliverer.controller';
-import { EditDelivererController } from './edit-deliverer.controller';
-import { FetchDeliverersController } from './fetch-deliverers.controller';
+import { CreateUserController } from './create-user.controller';
+import { EditUserController } from './edit-user.controller';
+import { FetchUsersController } from './fetch-users.controller';
 import { EditUserUseCase } from '@/domain/application/use-cases/edit-user';
-import { FetchDeliverersUseCase } from '@/domain/application/use-cases/fetch-deliverers';
+import { FetchUsersUseCase } from '@/domain/application/use-cases/fetch-users';
 import { AuthenticateController } from './authenticate.controller';
 import { RefreshTokenController } from './refresh-token.controller';
 import { AuthenticateUserUseCase } from '@/domain/application/use-cases/authenticate-user';
@@ -16,25 +16,29 @@ import { RolesGuard } from '@/infra/auth/roles.guard';
 import { AuthModule } from '@/infra/auth/auth.module';
 import { CreateRecipientController } from './create-recipient.controller';
 import { CreateRecipientUseCase } from '@/domain/application/use-cases/create-recipient';
+import { DeleteUserUseCase } from '@/domain/application/use-cases/delete-user';
+import { DeleteUserController } from './delete-user.controller';
 
 @Module({
   controllers: [
-    CreateDelivererController,
-    EditDelivererController,
-    FetchDeliverersController,
+    CreateUserController,
+    EditUserController,
+    FetchUsersController,
     AuthenticateController,
     RefreshTokenController,
     CreateRecipientController,
+    DeleteUserController,
   ],
   providers: [
-    RegisterDelivererUseCase,
+    RegisterUserUseCase,
     EditUserUseCase,
-    FetchDeliverersUseCase,
+    FetchUsersUseCase,
     AuthenticateUserUseCase,
     RefreshTokenUseCase,
     JwtAuthGuard,
     RolesGuard,
     CreateRecipientUseCase,
+    DeleteUserUseCase,
   ],
   imports: [AuthModule, DatabaseModule, CryptographyModule],
 })

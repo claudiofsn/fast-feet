@@ -4,19 +4,20 @@ import { HashGenerator } from '../cryptography/hash-generator';
 import { UserAlreadyExistsError } from './errors/user-already-exists-error';
 import { Injectable } from '@nestjs/common';
 
-interface RegisterDelivererUseCaseRequest {
+interface RegisterUserUseCaseRequest {
   name: string;
   cpf: string;
   email: string;
   password: string;
+  roles?: UserRole[];
 }
 
-interface RegisterDelivererUseCaseResponse {
+interface RegisterUserUseCaseResponse {
   user: User;
 }
 
 @Injectable()
-export class RegisterDelivererUseCase {
+export class RegisterUserUseCase {
   constructor(
     private usersRepository: UsersRepository,
     private hashGenerator: HashGenerator,
@@ -27,7 +28,8 @@ export class RegisterDelivererUseCase {
     cpf,
     email,
     password,
-  }: RegisterDelivererUseCaseRequest): Promise<RegisterDelivererUseCaseResponse> {
+    roles = [UserRole.DELIVERER],
+  }: RegisterUserUseCaseRequest): Promise<RegisterUserUseCaseResponse> {
     const userWithSameCpf = await this.usersRepository.findByCpf(cpf);
     if (userWithSameCpf) {
       throw new UserAlreadyExistsError(cpf);
@@ -45,7 +47,7 @@ export class RegisterDelivererUseCase {
       cpf,
       email,
       passwordHash,
-      roles: [UserRole.DELIVERER],
+      roles,
     });
 
     await this.usersRepository.create(user);

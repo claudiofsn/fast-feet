@@ -8,13 +8,13 @@ import { makeUser } from 'test/factories/make-user';
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let sut: EditUserUseCase;
 
-describe('Edit Deliverer', () => {
+describe('Edit User', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
     sut = new EditUserUseCase(inMemoryUsersRepository);
   });
 
-  it('should be able to edit a deliverer', async () => {
+  it('should be able to edit a user', async () => {
     const user = User.create(
       {
         name: 'John Doe',
@@ -39,7 +39,7 @@ describe('Edit Deliverer', () => {
     );
   });
 
-  it('should not be able to edit a non-existent deliverer', async () => {
+  it('should not be able to edit a non-existent user', async () => {
     await expect(() =>
       sut.execute({
         userId: 'non-existent-id',

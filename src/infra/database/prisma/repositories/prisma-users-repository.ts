@@ -13,7 +13,7 @@ export class PrismaUsersRepository implements UsersRepository {
 
   async findByCpf(cpf: string): Promise<User | null> {
     const user = await this.prisma.user.findUnique({
-      where: { cpf },
+      where: { cpf, deletedAt: null },
     });
 
     if (!user) {
@@ -25,7 +25,7 @@ export class PrismaUsersRepository implements UsersRepository {
 
   async findByEmail(email: string): Promise<User | null> {
     const user = await this.prisma.user.findUnique({
-      where: { email },
+      where: { email, deletedAt: null },
     });
 
     if (!user) {
@@ -80,14 +80,6 @@ export class PrismaUsersRepository implements UsersRepository {
         id: user.id.toString(),
       },
       data,
-    });
-  }
-
-  async delete(user: User): Promise<void> {
-    await this.prisma.user.delete({
-      where: {
-        id: user.id.toString(),
-      },
     });
   }
 }

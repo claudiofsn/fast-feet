@@ -18,7 +18,9 @@ export class InMemoryUsersRepository implements UsersRepository {
   }
 
   async findByEmail(email: string) {
-    const user = this.items.find((item) => item.email === email);
+    const user = this.items.find(
+      (item) => item.email === email && !item.deletedAt,
+    );
     return user ?? null;
   }
 
@@ -38,10 +40,5 @@ export class InMemoryUsersRepository implements UsersRepository {
   async save(user: User) {
     const itemIndex = this.items.findIndex((item) => item.id === user.id);
     this.items[itemIndex] = user;
-  }
-
-  async delete(user: User) {
-    const itemIndex = this.items.findIndex((item) => item.id === user.id);
-    this.items.splice(itemIndex, 1);
   }
 }

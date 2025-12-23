@@ -14,5 +14,4 @@ export abstract class UsersRepository {
     params: PaginationParams,
   ): Promise<User[]>;
   abstract save(user: User): Promise<void>;
-  abstract delete(user: User): Promise<void>;
 }

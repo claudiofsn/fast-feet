@@ -9,7 +9,7 @@ import { UserFactory } from 'test/factories/make-user';
 import { JwtService } from '@nestjs/jwt';
 import { UserRole } from '@/domain/enterprise/entities/user';
 
-describe('Create Deliverer (E2E)', () => {
+describe('Edit User (E2E)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
   let userFactory: UserFactory;
@@ -29,7 +29,7 @@ describe('Create Deliverer (E2E)', () => {
     await app.init();
   });
 
-  test('[POST] /deliverers', async () => {
+  test('[PUT] /user', async () => {
     const user = await userFactory.makePrismaUser({
       roles: [UserRole.ADMIN],
     });
@@ -39,24 +39,33 @@ describe('Create Deliverer (E2E)', () => {
       roles: user.roles,
     });
 
+    const userToEdit = await userFactory.makePrismaUser();
+
     const response = await request(app.getHttpServer() as string | App)
-      .post('/deliverers')
+      .put('/users/' + userToEdit.id.toString())
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
-        name: 'Deliverer Test',
-        email: 'deliverer@example.com',
-        cpf: '11122233344',
-        password: '123456',
+        name: 'John Doe',
+        email: 'jhon.doe@example.com',
+        roles: [UserRole.ADMIN],
+        cpf: '12345678900',
       });
 
-    expect(response.statusCode).toBe(201);
+    expect(response.statusCode).toBe(204);
 
-    const deliverysInDb = await prisma.user.findMany({
+    const usersInDB = await prisma.user.findFirst({
       where: {
-        roles: { equals: [UserRole.DELIVERER] },
+        id: userToEdit.id.toString(),
       },
     });
-    expect(deliverysInDb).toHaveLength(1);
-    expect(deliverysInDb[0].email).toBe('deliverer@example.com');
+    expect(usersInDB).toBeDefined();
+    expect(usersInDB).toEqual(
+      expect.objectContaining({
+        name: 'John Doe',
+        email: 'jhon.doe@example.com',
+        cpf: '12345678900',
+        roles: [UserRole.ADMIN],
+      }),
+    );
   });
 });

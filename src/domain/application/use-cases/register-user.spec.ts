@@ -1,20 +1,20 @@
 import { InMemoryUsersRepository } from 'test/repositories/in-memory-users-repository';
 import { FakeHasher } from 'test/cryptography/fake-hasher';
-import { RegisterDelivererUseCase } from './register-deliverer';
+import { RegisterUserUseCase } from './register-user';
 import { UserAlreadyExistsError } from './errors/user-already-exists-error';
 
 let inMemoryUsersRepository: InMemoryUsersRepository;
 let fakeHasher: FakeHasher;
-let sut: RegisterDelivererUseCase;
+let sut: RegisterUserUseCase;
 
-describe('Register Deliverer', () => {
+describe('Register User', () => {
   beforeEach(() => {
     inMemoryUsersRepository = new InMemoryUsersRepository();
     fakeHasher = new FakeHasher();
-    sut = new RegisterDelivererUseCase(inMemoryUsersRepository, fakeHasher);
+    sut = new RegisterUserUseCase(inMemoryUsersRepository, fakeHasher);
   });
 
-  it('should be able to register a new deliverer', async () => {
+  it('should be able to register a new user', async () => {
     const result = await sut.execute({
       name: 'John Doe',
       cpf: '12345678900',

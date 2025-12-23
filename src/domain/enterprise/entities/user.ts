@@ -15,6 +15,7 @@ export interface UserProps {
   roles: UserRole[];
   createdAt: Date;
   updatedAt?: Date;
+  deletedAt?: Date | null;
 }
 
 export class User extends Entity<UserProps> {
@@ -66,6 +67,10 @@ export class User extends Entity<UserProps> {
     return this.props.updatedAt;
   }
 
+  get deletedAt() {
+    return this.props.deletedAt;
+  }
+
   public hasRole(role: UserRole): boolean {
     return this.props.roles.includes(role);
   }
@@ -75,6 +80,11 @@ export class User extends Entity<UserProps> {
       this.props.roles.push(role);
       this.touch();
     }
+  }
+
+  delete() {
+    this.props.deletedAt = new Date();
+    this.touch();
   }
 
   private touch() {

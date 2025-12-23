@@ -2,21 +2,21 @@ import { User, UserRole } from '@/domain/enterprise/entities/user';
 import { UsersRepository } from '../repositories/users-repository';
 import { Injectable } from '@nestjs/common';
 
-interface FetchDeliverersUseCaseRequest {
+interface FetchUsersUseCaseRequest {
   page: number;
 }
 
-interface FetchDeliverersUseCaseResponse {
+interface FetchUsersUseCaseResponse {
   users: User[];
 }
 
 @Injectable()
-export class FetchDeliverersUseCase {
+export class FetchUsersUseCase {
   constructor(private usersRepository: UsersRepository) {}
 
   async execute({
     page = 1,
-  }: FetchDeliverersUseCaseRequest): Promise<FetchDeliverersUseCaseResponse> {
+  }: FetchUsersUseCaseRequest): Promise<FetchUsersUseCaseResponse> {
     const users = await this.usersRepository.findManyByRole(
       UserRole.DELIVERER,
       { page },
