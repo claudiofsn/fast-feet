@@ -48,13 +48,18 @@ describe('Edit Deliverer (E2E)', () => {
         name: 'John Doe',
         email: 'jhon.doe@example.com',
         roles: [UserRole.ADMIN],
+        cpf: '12345678900',
       });
 
     expect(response.statusCode).toBe(204);
 
-    const deliverersInDb = await prisma.user.findMany();
-    expect(deliverersInDb).toHaveLength(2);
-    expect(deliverersInDb[1]).toEqual(
+    const deliverersInDb = await prisma.user.findFirst({
+      where: {
+        id: deliverer.id.toString(),
+      },
+    });
+    expect(deliverersInDb).toBeDefined();
+    expect(deliverersInDb).toEqual(
       expect.objectContaining({
         name: 'John Doe',
         email: 'jhon.doe@example.com',
