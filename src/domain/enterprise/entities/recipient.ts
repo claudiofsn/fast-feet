@@ -51,6 +51,21 @@ export class Recipient extends Entity<RecipientProps> {
     return this.props.updatedAt;
   }
 
+  public update(params: Partial<RecipientProps>) {
+    // Filtra chaves que são undefined para não "apagar" dados existentes
+    const validParams = Object.fromEntries(
+      Object.entries(params).filter(([, v]) => v !== undefined),
+    );
+
+    Object.assign(this.props, validParams);
+    this.touch();
+  }
+
+  // Helper para atualizar a data de modificação
+  private touch() {
+    this.props.updatedAt = new Date();
+  }
+
   static create(
     props: Optional<RecipientProps, 'createdAt'>,
     id?: UniqueEntityID,
