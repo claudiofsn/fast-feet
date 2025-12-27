@@ -60,4 +60,36 @@ describe('Create Recipient (E2E)', () => {
     expect(recipientsInDb).toHaveLength(1);
     expect(recipientsInDb[0].email).toBe('john.doe@example.com');
   });
+
+  test('[POST] /recipients - Unauthorized', async () => {
+    const user = await userFactory.makePrismaUser(); // DEFAULT ROLE IS DELIVERYMAN
+
+    const accessToken = jwt.sign({
+      sub: user.id.toString(),
+      roles: user.roles,
+    });
+
+    const response = await request(app.getHttpServer() as string | App)
+      .post('/recipients')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send({
+        name: 'John Doe 2',
+        email: 'john.doe@example.com',
+        zipCode: '12345678',
+        street: 'Main Street',
+        number: '123',
+        complement: 'Apt 4B',
+        neighborhood: 'Downtown',
+        city: 'New York',
+        state: 'NY',
+      });
+
+    expect(response.statusCode).toBe(403);
+
+    const recipientsInDb = await prisma.recipient.findFirst({
+      where: { name: 'John Doe 2' },
+    });
+
+    expect(recipientsInDb).toBeNull();
+  });
 });

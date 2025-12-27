@@ -18,6 +18,12 @@ import { CreateRecipientController } from './create-recipient.controller';
 import { CreateRecipientUseCase } from '@/domain/application/use-cases/create-recipient';
 import { DeleteUserUseCase } from '@/domain/application/use-cases/delete-user';
 import { DeleteUserController } from './delete-user.controller';
+import { FetchRecipientsController } from './fetch-recipients.controller';
+import { FetchRecipientsUseCase } from '@/domain/application/use-cases/fetch-recipients';
+import { EditRecipientController } from './edit-recipient.controller';
+import { EditRecipientUseCase } from '@/domain/application/use-cases/edit-recipient';
+import { DeleteRecipientController } from './delete-recipient.controller';
+import { DeleteRecipientUseCase } from '@/domain/application/use-cases/delete-recipient';
 
 @Module({
   controllers: [
@@ -26,8 +32,11 @@ import { DeleteUserController } from './delete-user.controller';
     FetchUsersController,
     AuthenticateController,
     RefreshTokenController,
-    CreateRecipientController,
     DeleteUserController,
+    CreateRecipientController,
+    FetchRecipientsController,
+    EditRecipientController,
+    DeleteRecipientController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -37,8 +46,11 @@ import { DeleteUserController } from './delete-user.controller';
     RefreshTokenUseCase,
     JwtAuthGuard,
     RolesGuard,
-    CreateRecipientUseCase,
     DeleteUserUseCase,
+    CreateRecipientUseCase,
+    FetchRecipientsUseCase,
+    EditRecipientUseCase,
+    DeleteRecipientUseCase,
   ],
   imports: [AuthModule, DatabaseModule, CryptographyModule],
 })

@@ -3,7 +3,7 @@ import { Recipient } from '@/domain/enterprise/entities/recipient';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
 export class PrismaRecipientMapper {
-  static toDomain(raw: PrismaRecipient): Recipient {
+  static toDomain(this: void, raw: PrismaRecipient): Recipient {
     return Recipient.create(
       {
         name: raw.name,
@@ -17,6 +17,7 @@ export class PrismaRecipientMapper {
         state: raw.state,
         createdAt: raw.createdAt,
         updatedAt: raw.updatedAt,
+        deletedAt: raw.deletedAt,
       },
       new UniqueEntityID(raw.id),
     );
@@ -36,6 +37,7 @@ export class PrismaRecipientMapper {
       state: recipient.state,
       createdAt: recipient.createdAt,
       updatedAt: recipient.updatedAt,
+      deletedAt: recipient.deletedAt,
     };
   }
 }

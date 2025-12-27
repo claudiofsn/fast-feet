@@ -14,6 +14,7 @@ export interface RecipientProps {
   state: string;
   createdAt: Date;
   updatedAt?: Date | null;
+  deletedAt?: Date | null;
 }
 
 export class Recipient extends Entity<RecipientProps> {
@@ -51,6 +52,10 @@ export class Recipient extends Entity<RecipientProps> {
     return this.props.updatedAt;
   }
 
+  get deletedAt() {
+    return this.props.deletedAt;
+  }
+
   public update(params: Partial<RecipientProps>) {
     // Filtra chaves que são undefined para não "apagar" dados existentes
     const validParams = Object.fromEntries(
@@ -58,6 +63,11 @@ export class Recipient extends Entity<RecipientProps> {
     );
 
     Object.assign(this.props, validParams);
+    this.touch();
+  }
+
+  delete() {
+    this.props.deletedAt = new Date();
     this.touch();
   }
 
