@@ -4,6 +4,8 @@ import { PrismaUsersRepository } from './prisma/repositories/prisma-users-reposi
 import { UsersRepository } from '@/domain/application/repositories/users-repository';
 import { RecipientsRepository } from '@/domain/application/repositories/recipients-repository';
 import { PrismaRecipientsRepository } from './prisma/repositories/prisma-recipients-repository';
+import { OrdersRepository } from '@/domain/application/repositories/orders-repository';
+import { PrismaOrderRepository } from './prisma/repositories/prisma-order-repository';
 
 @Module({
   providers: [
@@ -15,6 +17,10 @@ import { PrismaRecipientsRepository } from './prisma/repositories/prisma-recipie
     {
       provide: RecipientsRepository,
       useClass: PrismaRecipientsRepository,
+    },
+    {
+      provide: OrdersRepository,
+      useClass: PrismaOrderRepository,
     },
   ],
   exports: [PrismaService, UsersRepository, RecipientsRepository],

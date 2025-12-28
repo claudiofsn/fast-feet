@@ -24,6 +24,8 @@ import { EditRecipientController } from './edit-recipient.controller';
 import { EditRecipientUseCase } from '@/domain/application/use-cases/edit-recipient';
 import { DeleteRecipientController } from './delete-recipient.controller';
 import { DeleteRecipientUseCase } from '@/domain/application/use-cases/delete-recipient';
+import { CreateOrderController } from './create-order.controller';
+import { CreateOrderUseCase } from '@/domain/application/use-cases/create-order';
 
 @Module({
   controllers: [
@@ -37,6 +39,7 @@ import { DeleteRecipientUseCase } from '@/domain/application/use-cases/delete-re
     FetchRecipientsController,
     EditRecipientController,
     DeleteRecipientController,
+    CreateOrderController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -51,6 +54,7 @@ import { DeleteRecipientUseCase } from '@/domain/application/use-cases/delete-re
     FetchRecipientsUseCase,
     EditRecipientUseCase,
     DeleteRecipientUseCase,
+    CreateOrderUseCase,
   ],
   imports: [AuthModule, DatabaseModule, CryptographyModule],
 })
