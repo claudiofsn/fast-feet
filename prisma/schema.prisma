@@ -76,6 +76,9 @@ model Order {
 
 model Attachment {
   id    String @id @default(uuid())
+  title String
+  url   String
+
   order Order?
 
   @@map("attachments")

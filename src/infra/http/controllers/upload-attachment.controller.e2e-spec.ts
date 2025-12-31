@@ -44,7 +44,7 @@ describe('Upload Attachment (E2E)', () => {
       await request(app.getHttpServer() as string | App)
         .post('/attachments')
         .set('Authorization', `Bearer ${accessToken}`)
-        .attach('file', Buffer.from('fake-image-data'), 'image.png');
+        .attach('file', './test/e2e/test-attachment.jpg');
 
     expect(response.statusCode).toBe(201);
     expect(response.body.attachmentId).toEqual(expect.any(String));
