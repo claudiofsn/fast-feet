@@ -3,7 +3,9 @@ import { PaginationParams } from '@/domain/application/repositories/users-reposi
 import { Order } from '@/domain/enterprise/entities/order';
 import { PrismaService } from '../prisma.service';
 import { PrismaOrderMapper } from '../mappers/prisma-order-mapper';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class PrismaOrderRepository implements OrdersRepository {
   constructor(private prisma: PrismaService) {}
 

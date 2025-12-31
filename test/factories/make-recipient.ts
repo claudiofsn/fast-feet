@@ -35,7 +35,7 @@ export function makeRecipient(
 export class RecipientFactory {
   constructor(private prisma: PrismaService) {}
 
-  async makePrismaRecipientFactory(
+  async makePrismaRecipient(
     data: Partial<RecipientProps> = {},
   ): Promise<Recipient> {
     const recipient = makeRecipient(data);

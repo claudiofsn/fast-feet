@@ -23,6 +23,11 @@ import { PrismaOrderRepository } from './prisma/repositories/prisma-order-reposi
       useClass: PrismaOrderRepository,
     },
   ],
-  exports: [PrismaService, UsersRepository, RecipientsRepository],
+  exports: [
+    PrismaService,
+    UsersRepository,
+    RecipientsRepository,
+    OrdersRepository,
+  ],
 })
 export class DatabaseModule {}

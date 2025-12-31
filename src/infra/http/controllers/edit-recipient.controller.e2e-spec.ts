@@ -42,7 +42,7 @@ describe.only('Edit Recipient (E2E)', () => {
       roles: user.roles,
     });
 
-    const recipient = await recipientFactory.makePrismaRecipientFactory();
+    const recipient = await recipientFactory.makePrismaRecipient();
 
     const newData = {
       name: 'John Doe',

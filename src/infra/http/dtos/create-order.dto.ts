@@ -2,6 +2,7 @@ import { createZodDto } from 'nestjs-zod';
 import { z } from 'zod';
 
 const createOrderBodySchema = z.object({
+  recipientId: z.uuid(),
   product: z.string().min(1),
 });
 

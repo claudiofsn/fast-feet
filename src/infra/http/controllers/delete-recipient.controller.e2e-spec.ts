@@ -42,7 +42,7 @@ describe('Delete Recipient (E2E)', () => {
       roles: user.roles,
     });
 
-    const recipient = await recipientFactory.makePrismaRecipientFactory();
+    const recipient = await recipientFactory.makePrismaRecipient();
 
     const response = await request(app.getHttpServer() as string | App)
       .delete('/recipients/' + recipient.id.toString())

@@ -5,34 +5,37 @@ import request from 'supertest';
 import { DatabaseModule } from '@/infra/database/database.module';
 import { App } from 'supertest/types';
 import { PrismaService } from '@/infra/database/prisma/prisma.service';
-import { UserFactory } from 'test/factories/make-user';
+import { makeRecipient, RecipientFactory } from 'test/factories/make-recipient';
 import { JwtService } from '@nestjs/jwt';
 import { UserRole } from '@/domain/enterprise/entities/user';
-import { RecipientFactory } from 'test/factories/make-recipient';
+import { UserFactory } from 'test/factories/make-user';
+import { OrderFactory } from 'test/factories/make-order';
 
-describe('Create Order (E2E)', () => {
+describe('Fetch Recipients (E2E)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
-  let userFactory: UserFactory;
   let recipientFactory: RecipientFactory;
   let jwt: JwtService;
+  let userFactory: UserFactory;
+  let orderFactory: OrderFactory;
 
   beforeAll(async () => {
     const moduleRef: TestingModule = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [PrismaService, UserFactory, RecipientFactory],
+      providers: [PrismaService, RecipientFactory, UserFactory, OrderFactory],
     }).compile();
 
     app = moduleRef.createNestApplication();
     prisma = moduleRef.get(PrismaService);
-    userFactory = moduleRef.get(UserFactory);
     recipientFactory = moduleRef.get(RecipientFactory);
+    userFactory = moduleRef.get(UserFactory);
     jwt = moduleRef.get(JwtService);
+    orderFactory = moduleRef.get(OrderFactory);
 
     await app.init();
   });
 
-  test('[POST] /orders', async () => {
+  test('[GET] /orders', async () => {
     const user = await userFactory.makePrismaUser({
       roles: [UserRole.ADMIN],
     });
@@ -42,25 +45,23 @@ describe('Create Order (E2E)', () => {
       roles: user.roles,
     });
 
-    const recipient = await recipientFactory.makePrismaRecipient();
+    const recipient =
+      await recipientFactory.makePrismaRecipient(makeRecipient());
+
+    for (let i = 0; i < 3; i++) {
+      await orderFactory.makePrismaOrder({
+        recipientId: recipient.id,
+      });
+    }
 
     const response = await request(app.getHttpServer() as string | App)
-      .post('/orders')
-      .set('Authorization', `Bearer ${accessToken}`)
-      .send({
-        recipientId: recipient.id.toString(),
-        product: 'Product XYZ',
-      });
+      .get('/orders')
+      .set('Authorization', `Bearer ${accessToken}`);
 
-    expect(response.statusCode).toBe(201);
+    expect(response.statusCode).toBe(200);
 
     const ordersInDb = await prisma.order.findMany();
-    expect(ordersInDb).toHaveLength(1);
-    expect(ordersInDb[0]).toEqual(
-      expect.objectContaining({
-        recipientId: recipient.id.toString(),
-        product: 'Product XYZ',
-      }),
-    );
+    expect(ordersInDb).toHaveLength(3);
+    expect(ordersInDb[0].recipientId).toBe(recipient.id.toString());
   });
 });

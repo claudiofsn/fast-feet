@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import {
   ApiTags,
   ApiOperation,
@@ -15,7 +15,7 @@ import { CreateOrderDto } from '../dtos/create-order.dto';
 @ApiTags('Orders')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard, RolesGuard)
-@Controller('/orders/:id')
+@Controller('/orders')
 export class CreateOrderController {
   constructor(private createOrder: CreateOrderUseCase) {}
 
@@ -24,10 +24,9 @@ export class CreateOrderController {
   @ApiOperation({ summary: 'Create a new order' })
   @ApiResponse({ status: 201, description: 'Order created.' })
   @ApiResponse({ status: 409, description: 'Order already exists.' })
-  async handle(@Body() body: CreateOrderDto, @Param('id') recipientId: string) {
+  async handle(@Body() body: CreateOrderDto) {
     await this.createOrder.execute({
       ...body,
-      recipientId,
     });
   }
 }

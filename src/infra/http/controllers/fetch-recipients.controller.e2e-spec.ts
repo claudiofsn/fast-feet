@@ -43,10 +43,10 @@ describe('Fetch Recipients (E2E)', () => {
     });
 
     await Promise.all([
-      recipientFactory.makePrismaRecipientFactory({
+      recipientFactory.makePrismaRecipient({
         email: 'john.doe@example.com',
       }),
-      recipientFactory.makePrismaRecipientFactory(),
+      recipientFactory.makePrismaRecipient(),
     ]);
 
     const response = await request(app.getHttpServer() as string | App)

@@ -29,7 +29,7 @@ export function makeOrder(
 export class OrderFactory {
   constructor(private prisma: PrismaService) {}
 
-  async makePrismaOrderFactory(data: Partial<OrderProps> = {}): Promise<Order> {
+  async makePrismaOrder(data: Partial<OrderProps> = {}): Promise<Order> {
     const order = makeOrder(data);
 
     await this.prisma.order.create({
