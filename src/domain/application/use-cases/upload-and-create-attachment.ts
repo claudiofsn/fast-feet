@@ -1,6 +1,7 @@
 import { Attachment } from '@/domain/enterprise/entities/attachment';
 import { AttachmentsRepository } from '../repositories/attachments-repository';
 import { Uploader } from '../storage/uploader';
+import { Injectable } from '@nestjs/common';
 
 interface UploadAndCreateAttachmentUseCaseRequest {
   fileName: string;
@@ -8,6 +9,7 @@ interface UploadAndCreateAttachmentUseCaseRequest {
   body: Buffer;
 }
 
+@Injectable()
 export class UploadAndCreateAttachmentUseCase {
   constructor(
     private uploader: Uploader,

@@ -34,6 +34,9 @@ import { MarkOrderAsWaitingController } from './mark-order-as-waiting.controller
 import { MarkOrderAsWaitingUseCase } from '@/domain/application/use-cases/mark-order-as-waiting';
 import { WithdrawOrderController } from './withdraw-order.controller';
 import { WithdrawOrderUseCase } from '@/domain/application/use-cases/withdraw-order';
+import { StorageModule } from '@/infra/storage/storage.module';
+import { UploadAttachmentController } from './upload-attachment.controller';
+import { UploadAndCreateAttachmentUseCase } from '@/domain/application/use-cases/upload-and-create-attachment';
 
 @Module({
   controllers: [
@@ -52,6 +55,7 @@ import { WithdrawOrderUseCase } from '@/domain/application/use-cases/withdraw-or
     FetchRecentOrdersController,
     MarkOrderAsWaitingController,
     WithdrawOrderController,
+    UploadAttachmentController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -71,7 +75,8 @@ import { WithdrawOrderUseCase } from '@/domain/application/use-cases/withdraw-or
     FetchRecentOrdersUseCase,
     MarkOrderAsWaitingUseCase,
     WithdrawOrderUseCase,
+    UploadAndCreateAttachmentUseCase,
   ],
-  imports: [AuthModule, DatabaseModule, CryptographyModule],
+  imports: [AuthModule, DatabaseModule, CryptographyModule, StorageModule],
 })
 export class ControllersModule {}
