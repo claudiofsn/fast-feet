@@ -34,8 +34,6 @@ describe('Fetch Recent Orders', () => {
       await inMemoryOrdersRepository.create(order);
     }
 
-    console.log(inMemoryOrdersRepository.items);
-
     const result = await sut.execute({ page: 2 });
 
     expect(result.orders).toHaveLength(2);

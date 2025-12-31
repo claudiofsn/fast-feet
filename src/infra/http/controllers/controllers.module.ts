@@ -28,10 +28,13 @@ import { CreateOrderController } from './create-order.controller';
 import { CreateOrderUseCase } from '@/domain/application/use-cases/create-order';
 import { FetchRecentOrdersUseCase } from '@/domain/application/use-cases/fetch-recent-orders';
 import { FetchRecentOrdersController } from './fetch-recent-orders.controller';
+import { ChangePasswordController } from './change-password.controller';
+import { ChangeUserPasswordUseCase } from '@/domain/application/use-cases/change-user-password';
 
 @Module({
   controllers: [
     CreateUserController,
+    ChangePasswordController,
     EditUserController,
     FetchUsersController,
     AuthenticateController,
@@ -46,6 +49,7 @@ import { FetchRecentOrdersController } from './fetch-recent-orders.controller';
   ],
   providers: [
     RegisterUserUseCase,
+    ChangeUserPasswordUseCase,
     EditUserUseCase,
     FetchUsersUseCase,
     AuthenticateUserUseCase,

@@ -50,6 +50,11 @@ export class User extends Entity<UserProps> {
     return this.props.passwordHash;
   }
 
+  set passwordHash(passwordHash: string) {
+    this.props.passwordHash = passwordHash;
+    this.touch();
+  }
+
   get roles() {
     return this.props.roles;
   }
@@ -69,6 +74,16 @@ export class User extends Entity<UserProps> {
 
   get deletedAt() {
     return this.props.deletedAt;
+  }
+
+  public update(params: Partial<UserProps>) {
+    // Filtra chaves que são undefined para não "apagar" dados existentes
+    const validParams = Object.fromEntries(
+      Object.entries(params).filter(([, v]) => v !== undefined),
+    );
+
+    Object.assign(this.props, validParams);
+    this.touch();
   }
 
   public hasRole(role: UserRole): boolean {
