@@ -4,12 +4,20 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
 export class PrismaOrderMapper {
   static toDomain(this: void, raw: PrismaOrder): Order {
+    const deliverermanId = raw.deliverymanId
+      ? new UniqueEntityID(raw.deliverymanId)
+      : null;
+
+    const signatureId = raw.signatureId
+      ? new UniqueEntityID(raw.signatureId)
+      : null;
+
     return Order.create(
       {
         recipientId: new UniqueEntityID(raw.recipientId),
         product: raw.product,
-        deliverymanId: new UniqueEntityID(raw.deliverymanId),
-        signatureId: new UniqueEntityID(raw.signatureId),
+        deliverymanId: deliverermanId,
+        signatureId: signatureId,
         canceladedAt: raw.canceladedAt,
         startDate: raw.startDate,
         endDate: raw.endDate,

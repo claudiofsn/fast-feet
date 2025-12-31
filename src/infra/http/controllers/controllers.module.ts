@@ -30,6 +30,10 @@ import { FetchRecentOrdersUseCase } from '@/domain/application/use-cases/fetch-r
 import { FetchRecentOrdersController } from './fetch-recent-orders.controller';
 import { ChangePasswordController } from './change-password.controller';
 import { ChangeUserPasswordUseCase } from '@/domain/application/use-cases/change-user-password';
+import { MarkOrderAsWaitingController } from './mark-order-as-waiting.controller';
+import { MarkOrderAsWaitingUseCase } from '@/domain/application/use-cases/mark-order-as-waiting';
+import { WithdrawOrderController } from './withdraw-order.controller';
+import { WithdrawOrderUseCase } from '@/domain/application/use-cases/withdraw-order';
 
 @Module({
   controllers: [
@@ -46,6 +50,8 @@ import { ChangeUserPasswordUseCase } from '@/domain/application/use-cases/change
     DeleteRecipientController,
     CreateOrderController,
     FetchRecentOrdersController,
+    MarkOrderAsWaitingController,
+    WithdrawOrderController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -63,6 +69,8 @@ import { ChangeUserPasswordUseCase } from '@/domain/application/use-cases/change
     DeleteRecipientUseCase,
     CreateOrderUseCase,
     FetchRecentOrdersUseCase,
+    MarkOrderAsWaitingUseCase,
+    WithdrawOrderUseCase,
   ],
   imports: [AuthModule, DatabaseModule, CryptographyModule],
 })
