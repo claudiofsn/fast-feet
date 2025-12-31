@@ -6,7 +6,6 @@ import {
   ParseFilePipe,
   MaxFileSizeValidator,
   FileTypeValidator,
-  BadRequestException,
   UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';

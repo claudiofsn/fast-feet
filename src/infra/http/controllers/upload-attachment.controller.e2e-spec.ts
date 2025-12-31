@@ -5,8 +5,6 @@ import { DatabaseModule } from '@/infra/database/database.module';
 import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserFactory } from 'test/factories/make-user';
-import { Uploader } from '@/domain/application/storage/uploader';
-import { FakeUploader } from 'test/storage/fake-uploader';
 import { AppModule } from '@/app.module';
 import { App } from 'supertest/types';
 
@@ -20,10 +18,7 @@ describe('Upload Attachment (E2E)', () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
       providers: [UserFactory],
-    })
-      .overrideProvider(Uploader)
-      .useClass(FakeUploader)
-      .compile();
+    }).compile();
 
     app = moduleRef.createNestApplication();
     prisma = moduleRef.get(PrismaService);
