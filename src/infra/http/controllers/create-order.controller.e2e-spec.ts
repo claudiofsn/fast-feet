@@ -50,6 +50,8 @@ describe('Create Order (E2E)', () => {
       .send({
         recipientId: recipient.id.toString(),
         product: 'Product XYZ',
+        latitude: 1,
+        longitude: 1,
       });
 
     expect(response.statusCode).toBe(201);

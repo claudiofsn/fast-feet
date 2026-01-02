@@ -3,6 +3,7 @@ import { Order, OrderProps } from '@/domain/enterprise/entities/order';
 import { PrismaOrderMapper } from '@/infra/database/prisma/mappers/prisma-order-mapper';
 import { PrismaService } from '@/infra/database/prisma/prisma.service';
 import { Injectable } from '@nestjs/common';
+import { faker } from '@faker-js/faker';
 
 export function makeOrder(
   override: Partial<OrderProps> = {},
@@ -12,6 +13,8 @@ export function makeOrder(
     {
       recipientId: new UniqueEntityID(),
       product: `Product ${Math.random()}`,
+      latitude: faker.location.latitude(),
+      longitude: faker.location.longitude(),
       deliverymanId: null,
       signatureId: null,
       canceladedAt: null,

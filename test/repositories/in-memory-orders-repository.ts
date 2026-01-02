@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/require-await */
-import { OrdersRepository } from '@/domain/application/repositories/orders-repository';
+import {
+  FindManyNearbyParams,
+  OrdersRepository,
+} from '@/domain/application/repositories/orders-repository';
 import { PaginationParams } from '@/domain/application/repositories/users-repository';
 import { Order } from '@/domain/enterprise/entities/order';
+import { getDistanceBetweenCoordinates } from '@/domain/helpers/get-distance-between-coordinates';
 
 export class InMemoryOrdersRepository implements OrdersRepository {
   public items: Order[] = [];
@@ -31,5 +35,22 @@ export class InMemoryOrdersRepository implements OrdersRepository {
     if (orderIndex >= 0) {
       this.items[orderIndex] = order;
     }
+  }
+
+  async findManyNearby({ latitude, longitude }: FindManyNearbyParams) {
+    const MAX_RANGE_IN_KM = 10;
+
+    return this.items.filter((item) => {
+      if (item.deliverymanId || item.canceladedAt) return false;
+
+      const distance = getDistanceBetweenCoordinates({
+        lat1: latitude,
+        lon1: longitude,
+        lat2: item.latitude,
+        lon2: item.longitude,
+      });
+
+      return distance < MAX_RANGE_IN_KM; // Raio de 10km
+    });
   }
 }

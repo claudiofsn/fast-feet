@@ -26,6 +26,8 @@ describe('Create Order', () => {
     const result = await sut.execute({
       recipientId: recipient.id.toString(),
       product: 'New Product',
+      latitude: 1,
+      longitude: 1,
     });
 
     expect(result.order.product).toBe('New Product');
@@ -37,6 +39,8 @@ describe('Create Order', () => {
       sut.execute({
         product: 'New Product',
         recipientId: 'inexistent-recipient-id',
+        latitude: 1,
+        longitude: 1,
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
   });

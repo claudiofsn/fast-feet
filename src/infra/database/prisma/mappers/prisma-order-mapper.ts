@@ -16,6 +16,8 @@ export class PrismaOrderMapper {
       {
         recipientId: new UniqueEntityID(raw.recipientId),
         product: raw.product,
+        latitude: raw.latitude.toNumber(),
+        longitude: raw.longitude.toNumber(),
         deliverymanId: deliverermanId,
         signatureId: signatureId,
         canceladedAt: raw.canceladedAt,
@@ -33,6 +35,8 @@ export class PrismaOrderMapper {
       id: order.id.toString(),
       recipientId: order.recipientId.toString(),
       product: order.product,
+      latitude: new Prisma.Decimal(order.latitude),
+      longitude: new Prisma.Decimal(order.longitude),
       deliverymanId: order.deliverymanId?.toString() ?? null,
       signatureId: order.signatureId?.toString() ?? null,
       canceladedAt: order.canceladedAt,

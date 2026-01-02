@@ -48,25 +48,22 @@ model Recipient {
 }
 
 model Order {
-  id      String @id @default(uuid())
-  product String
+  id        String  @id @default(uuid())
+  product   String
+  latitude  Decimal @db.Decimal(10, 8)
+  longitude Decimal @db.Decimal(11, 8)
 
-  // Relacionamentos (IDs)
   recipientId   String  @map("recipient_id")
   deliverymanId String? @map("deliveryman_id")
   signatureId   String? @unique @map("signature_id")
 
-  // Datas de controle
-  // Mantendo 'canceladedAt' conforme sua entidade
   canceladedAt DateTime? @map("canceladed_at")
   startDate    DateTime? @map("start_date")
   endDate      DateTime? @map("end_date")
 
-  // Auditoria
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
-  // Definição dos relacionamentos (opcional, mas necessário para o Prisma)
   recipient   Recipient   @relation(fields: [recipientId], references: [id])
   deliveryman User?       @relation(fields: [deliverymanId], references: [id])
   signature   Attachment? @relation(fields: [signatureId], references: [id])

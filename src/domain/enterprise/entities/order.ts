@@ -1,10 +1,14 @@
 import { Entity } from '@/core/entities/entity';
 import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { Optional } from '@/core/types/optional';
+import { OrderHasBeenDeliveredError } from '@/domain/application/use-cases/errors/order-has-been-delivered-error';
+import { OrderHasntBeenWithdrawError } from '@/domain/application/use-cases/errors/order-hasnt-been-withdraw-error';
 
 export interface OrderProps {
   recipientId: UniqueEntityID;
   product: string;
+  latitude: number;
+  longitude: number;
   deliverymanId: UniqueEntityID | null;
   signatureId: UniqueEntityID | null;
   canceladedAt: Date | null; // Quando algo saiu errado e o pedido foi cancelado ou devolvido
@@ -22,6 +26,14 @@ export class Order extends Entity<OrderProps> {
   set product(product: string) {
     this.props.product = product;
     this.touch();
+  }
+
+  get latitude() {
+    return this.props.latitude;
+  }
+
+  get longitude() {
+    return this.props.longitude;
   }
 
   get recipientId() {
@@ -84,6 +96,19 @@ export class Order extends Entity<OrderProps> {
 
   get updatedAt() {
     return this.props.updatedAt;
+  }
+
+  return() {
+    if (!this.props.startDate) {
+      throw new OrderHasntBeenWithdrawError();
+    }
+
+    if (this.props.endDate) {
+      throw new OrderHasBeenDeliveredError();
+    }
+
+    this.props.canceladedAt = new Date();
+    this.touch();
   }
 
   private touch() {

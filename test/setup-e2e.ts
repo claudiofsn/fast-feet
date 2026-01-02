@@ -32,12 +32,10 @@ beforeAll(async () => {
     adapter,
   });
 
-  // Aplica as migrations no schema temporário
   execSync('npx prisma migrate deploy');
 });
 
 afterAll(async () => {
-  // Limpa o schema após os testes
   await prisma.$executeRawUnsafe(`DROP SCHEMA IF EXISTS "${schemaId}" CASCADE`);
   await prisma.$disconnect();
 });

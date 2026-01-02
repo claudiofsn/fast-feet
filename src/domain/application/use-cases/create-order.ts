@@ -8,6 +8,8 @@ import { ResourceNotFoundError } from './errors/resource-not-found-error';
 interface CreateOrderUseCaseRequest {
   recipientId: string;
   product: string;
+  latitude: number;
+  longitude: number;
 }
 
 @Injectable()
@@ -17,7 +19,12 @@ export class CreateOrderUseCase {
     private recipientRepository: RecipientsRepository,
   ) {}
 
-  async execute({ recipientId, product }: CreateOrderUseCaseRequest) {
+  async execute({
+    recipientId,
+    product,
+    latitude,
+    longitude,
+  }: CreateOrderUseCaseRequest) {
     const recipient = await this.recipientRepository.findById(recipientId);
 
     if (!recipient) {
@@ -27,6 +34,8 @@ export class CreateOrderUseCase {
     const order = Order.create({
       recipientId: new UniqueEntityID(recipientId),
       product,
+      latitude,
+      longitude,
       deliverymanId: null,
       signatureId: null,
       startDate: null,

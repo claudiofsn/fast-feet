@@ -39,6 +39,10 @@ import { UploadAttachmentController } from './upload-attachment.controller';
 import { UploadAndCreateAttachmentUseCase } from '@/domain/application/use-cases/upload-and-create-attachment';
 import { DeliverOrderController } from './deliver-order.controller';
 import { DeliverOrderUseCase } from '@/domain/application/use-cases/deliver-order';
+import { ReturnOrderController } from './return-order.controller';
+import { ReturnOrderUseCase } from '@/domain/application/use-cases/return-order';
+import { FetchNearbyOrdersController } from './fetch-nearby-orders.controller';
+import { FetchNearbyOrdersUseCase } from '@/domain/application/use-cases/fetch-nearby-orders';
 
 @Module({
   controllers: [
@@ -59,6 +63,8 @@ import { DeliverOrderUseCase } from '@/domain/application/use-cases/deliver-orde
     WithdrawOrderController,
     DeliverOrderController,
     UploadAttachmentController,
+    ReturnOrderController,
+    FetchNearbyOrdersController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -80,6 +86,8 @@ import { DeliverOrderUseCase } from '@/domain/application/use-cases/deliver-orde
     WithdrawOrderUseCase,
     DeliverOrderUseCase,
     UploadAndCreateAttachmentUseCase,
+    ReturnOrderUseCase,
+    FetchNearbyOrdersUseCase,
   ],
   imports: [AuthModule, DatabaseModule, CryptographyModule, StorageModule],
 })
