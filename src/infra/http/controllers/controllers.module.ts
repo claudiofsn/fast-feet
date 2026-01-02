@@ -43,6 +43,8 @@ import { ReturnOrderController } from './return-order.controller';
 import { ReturnOrderUseCase } from '@/domain/application/use-cases/return-order';
 import { FetchNearbyOrdersController } from './fetch-nearby-orders.controller';
 import { FetchNearbyOrdersUseCase } from '@/domain/application/use-cases/fetch-nearby-orders';
+import { FetchDeliverymanOrdersController } from './fetch-deliveryman-orders.controller';
+import { FetchDeliverymanOrdersUseCase } from '@/domain/application/use-cases/fetch-deliveryman-orders';
 
 @Module({
   controllers: [
@@ -65,6 +67,7 @@ import { FetchNearbyOrdersUseCase } from '@/domain/application/use-cases/fetch-n
     UploadAttachmentController,
     ReturnOrderController,
     FetchNearbyOrdersController,
+    FetchDeliverymanOrdersController,
   ],
   providers: [
     RegisterUserUseCase,
@@ -88,6 +91,7 @@ import { FetchNearbyOrdersUseCase } from '@/domain/application/use-cases/fetch-n
     UploadAndCreateAttachmentUseCase,
     ReturnOrderUseCase,
     FetchNearbyOrdersUseCase,
+    FetchDeliverymanOrdersUseCase,
   ],
   imports: [AuthModule, DatabaseModule, CryptographyModule, StorageModule],
 })

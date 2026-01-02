@@ -19,7 +19,7 @@ export class PrismaService
       },
     );
 
-    super({ adapter, log: ['query', 'warn', 'error'] });
+    super({ adapter, log: ['warn', 'error'] });
   }
 
   async onModuleInit() {

@@ -1,16 +1,16 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { ZodValidationPipe } from 'nestjs-zod'; // Pipe oficial da lib
 import { AppModule } from './app.module';
 import { EnvService } from './infra/env/env.service';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.useGlobalPipes(new ZodValidationPipe());
+
   const envService = app.get(EnvService);
   const port = envService.get('PORT');
-
-  app.useGlobalPipes(new ZodValidationPipe());
 
   const config = new DocumentBuilder()
     .setTitle('Delivery API')

@@ -53,4 +53,14 @@ export class InMemoryOrdersRepository implements OrdersRepository {
       return distance < MAX_RANGE_IN_KM; // Raio de 10km
     });
   }
+
+  async findManyByDeliverymanId(
+    deliverymanId: string,
+    { page }: PaginationParams,
+  ): Promise<Order[]> {
+    return this.items
+      .filter((item) => item.deliverymanId.toString() === deliverymanId)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+      .slice((page - 1) * 20, page * 20);
+  }
 }

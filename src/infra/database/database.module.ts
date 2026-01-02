@@ -5,7 +5,7 @@ import { UsersRepository } from '@/domain/application/repositories/users-reposit
 import { RecipientsRepository } from '@/domain/application/repositories/recipients-repository';
 import { PrismaRecipientsRepository } from './prisma/repositories/prisma-recipients-repository';
 import { OrdersRepository } from '@/domain/application/repositories/orders-repository';
-import { PrismaOrderRepository } from './prisma/repositories/prisma-order-repository';
+import { PrismaOrdersRepository } from './prisma/repositories/prisma-orders-repository';
 import { AttachmentsRepository } from '@/domain/application/repositories/attachments-repository';
 import { PrismaAttachmentsRepository } from './prisma/repositories/prisma-attachments-repository';
 
@@ -22,7 +22,7 @@ import { PrismaAttachmentsRepository } from './prisma/repositories/prisma-attach
     },
     {
       provide: OrdersRepository,
-      useClass: PrismaOrderRepository,
+      useClass: PrismaOrdersRepository,
     },
     {
       provide: AttachmentsRepository,

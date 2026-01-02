@@ -12,4 +12,8 @@ export abstract class OrdersRepository {
   abstract save(order: Order): Promise<void>;
   abstract findById(orderId: string): Promise<Order | null>;
   abstract findManyNearby(params: FindManyNearbyParams): Promise<Order[]>;
+  abstract findManyByDeliverymanId(
+    deliverymanId: string,
+    params: PaginationParams,
+  ): Promise<Order[]>;
 }

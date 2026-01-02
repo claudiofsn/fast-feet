@@ -10,7 +10,7 @@ import { Injectable } from '@nestjs/common';
 import { Prisma, Order as PrismaOrder } from '@prisma/client';
 
 @Injectable()
-export class PrismaOrderRepository implements OrdersRepository {
+export class PrismaOrdersRepository implements OrdersRepository {
   constructor(private prisma: PrismaService) {}
 
   async create(order: Order): Promise<void> {
@@ -78,6 +78,26 @@ export class PrismaOrderRepository implements OrdersRepository {
     AND deliveryman_id IS NULL
     AND canceladed_at IS NULL
   `;
+
+    return orders.map(PrismaOrderMapper.toDomain);
+  }
+
+  async findManyByDeliverymanId(
+    deliverymanId: string,
+    { page }: PaginationParams,
+  ) {
+    const PER_PAGE = 20;
+
+    const orders = await this.prisma.order.findMany({
+      where: {
+        deliverymanId,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: PER_PAGE,
+      skip: (page - 1) * PER_PAGE,
+    });
 
     return orders.map(PrismaOrderMapper.toDomain);
   }

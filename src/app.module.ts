@@ -5,6 +5,8 @@ import { EnvModule } from '@/infra/env/env.module';
 import { envSchema } from '@/infra/env/env';
 import { DatabaseModule } from './infra/database/database.module';
 import { ControllersModule } from './infra/http/controllers/controllers.module';
+import { APP_PIPE } from '@nestjs/core';
+import { ZodValidationPipe } from 'nestjs-zod';
 
 @Module({
   imports: [
@@ -17,6 +19,11 @@ import { ControllersModule } from './infra/http/controllers/controllers.module';
     DatabaseModule,
     ControllersModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: ZodValidationPipe,
+    },
+  ],
 })
 export class AppModule {}
