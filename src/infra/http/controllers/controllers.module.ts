@@ -37,6 +37,8 @@ import { WithdrawOrderUseCase } from '@/domain/application/use-cases/withdraw-or
 import { StorageModule } from '@/infra/storage/storage.module';
 import { UploadAttachmentController } from './upload-attachment.controller';
 import { UploadAndCreateAttachmentUseCase } from '@/domain/application/use-cases/upload-and-create-attachment';
+import { DeliverOrderController } from './deliver-order.controller';
+import { DeliverOrderUseCase } from '@/domain/application/use-cases/deliver-order';
 
 @Module({
   controllers: [
@@ -55,6 +57,7 @@ import { UploadAndCreateAttachmentUseCase } from '@/domain/application/use-cases
     FetchRecentOrdersController,
     MarkOrderAsWaitingController,
     WithdrawOrderController,
+    DeliverOrderController,
     UploadAttachmentController,
   ],
   providers: [
@@ -75,6 +78,7 @@ import { UploadAndCreateAttachmentUseCase } from '@/domain/application/use-cases
     FetchRecentOrdersUseCase,
     MarkOrderAsWaitingUseCase,
     WithdrawOrderUseCase,
+    DeliverOrderUseCase,
     UploadAndCreateAttachmentUseCase,
   ],
   imports: [AuthModule, DatabaseModule, CryptographyModule, StorageModule],

@@ -10,7 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserRole } from '@/domain/enterprise/entities/user';
 import { UserFactory } from 'test/factories/make-user';
 
-describe.only('Edit Recipient (E2E)', () => {
+describe('Edit Recipient (E2E)', () => {
   let app: INestApplication;
   let prisma: PrismaService;
   let recipientFactory: RecipientFactory;

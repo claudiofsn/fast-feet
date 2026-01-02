@@ -51,6 +51,7 @@ describe('Upload Attachment (E2E)', () => {
     });
 
     expect(attachmentOnDatabase).toBeTruthy();
-    // expect(attachmentOnDatabase?.title).toBe('image.png');
+    expect(attachmentOnDatabase?.title).toBe('test-attachment.jpg');
+    expect(attachmentOnDatabase.url).toBeDefined();
   });
 });

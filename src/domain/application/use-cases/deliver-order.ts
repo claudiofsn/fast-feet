@@ -6,6 +6,7 @@ import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 import { ResourceNotFoundError } from './errors/resource-not-found-error';
 import { NotAllowedError } from './errors/not-allowed-error';
 import { OrderHasBeenCanceledError } from './errors/order-has-been-canceled-error';
+import { Injectable } from '@nestjs/common';
 
 interface DeliverOrderUseCaseRequest {
   orderId: string;
@@ -17,6 +18,7 @@ interface DeliverOrderUseCaseResponse {
   order: Order;
 }
 
+@Injectable()
 export class DeliverOrderUseCase {
   constructor(private ordersRepository: OrdersRepository) {}
 
