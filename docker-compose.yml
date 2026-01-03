@@ -4,9 +4,17 @@ services:
     ports:
       - '${PORT}:${PORT}'
     environment:
-      - DATABASE_URL=${DATABASE_URL}
       - PORT=${PORT}
-      - JWT_SECRET=${JWT_SECRET}
+      - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
+      - JWT_PUBLIC_KEY=${JWT_PUBLIC_KEY}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD${DB_PASSWORD}
+      - DB_NAME${DB_NAME}
+      - DATABASE_URL${DATABASE_URL}
+      - CLOUD_FLARE_ACCOUNT_ID${CLOUD_FLARE_ACCOUNT_ID}
+      - AWS_ACCESS_KEY_ID${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY${AWS_SECRET_ACCESS_KEY}
+      - AWS_BUCKET_NAME${AWS_BUCKET_NAME}
     depends_on:
       db:
         condition: service_healthy
