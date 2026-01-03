@@ -18,6 +18,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            cd ~/seu-repositorio
+            cd ~/fast-feet
             git pull origin main
             docker compose up -d --build
