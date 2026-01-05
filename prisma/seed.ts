@@ -4,48 +4,122 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import { hash } from 'bcryptjs';
 import { faker } from '@faker-js/faker';
+import { UniqueEntityID } from '@/core/entities/unique-entity-id';
 
-async function seed() {
+function instacePrisma() {
   const connectionString = process.env.DATABASE_URL;
   const pool = new Pool({ connectionString });
   const adapter = new PrismaPg(pool);
-  const prisma = new PrismaClient({ adapter });
+  return new PrismaClient({ adapter });
+}
 
-  // Limpeza
-  await prisma.user.deleteMany();
-  console.log('🧹 Database cleaned');
+async function seed() {
+  console.log('Iniciando seed...');
 
-  const passwordHash = await hash('123456', 8);
+  const prisma = instacePrisma();
 
-  await prisma.user.create({
-    data: {
-      name: 'Admin User',
+  async function cleanDatabase() {
+    await prisma.order.deleteMany();
+    await prisma.attachment.deleteMany();
+    await prisma.recipient.deleteMany();
+    await prisma.user.deleteMany();
+  }
+
+  await cleanDatabase();
+
+  const hashedPassword = await hash('123456', 8);
+
+  await prisma.user.upsert({
+    where: { email: 'admin@fastfeet.com' },
+    update: {},
+    create: {
+      name: 'Admin Recrutador',
       email: 'admin@fastfeet.com',
-      cpf: '11111111111',
-      password: passwordHash,
+      password: hashedPassword,
       roles: [UserRole.ADMIN],
+      cpf: '00011122233',
     },
   });
 
-  const deliverers = Array.from({ length: 10 }).map(() => {
-    return {
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
-      cpf: faker.number.int({ min: 10000000000, max: 99999999999 }).toString(),
-      password: passwordHash,
+  const deliveryman = await prisma.user.create({
+    data: {
+      name: 'Entregador Ninja',
+      email: 'ninja@fastfeet.com',
+      cpf: '55566677788',
+      password: hashedPassword,
       roles: [UserRole.DELIVERER],
-    };
+    },
   });
 
-  await prisma.user.createMany({
-    data: deliverers,
+  const recipient = await prisma.recipient.create({
+    data: {
+      name: 'Portaria Residencial Horizonte',
+      email: faker.internet.email(),
+      neighborhood: 'Bela Vista',
+      street: 'Av. Paulista',
+      number: '1000',
+      city: 'São Paulo',
+      state: 'SP',
+      zipCode: '01310-100',
+    },
   });
 
-  console.log('🌱 Database seeded successfully!');
-  await pool.end();
+  const baseOrder = {
+    recipientId: recipient.id,
+    latitude: -23.56168,
+    longitude: -46.65591,
+  };
+
+  const signatureId = await prisma.attachment.create({
+    data: {
+      title: 'Seed Signature',
+      url: 'teste',
+      id: new UniqueEntityID().toString(),
+    },
+  });
+
+  const ordersToCreate = [
+    {
+      ...baseOrder,
+      product: 'iPhone 15 Pro Max',
+    },
+    {
+      ...baseOrder,
+      product: 'Monitor Gamer 240Hz',
+      deliverymanId: deliveryman.id.toString(),
+      startDate: new Date(),
+      // Status: Retirada / Em Trânsito
+    },
+    {
+      ...baseOrder,
+      product: 'Cadeira Ergonômica',
+      deliverymanId: deliveryman.id,
+      startDate: new Date(Date.now() - 86400000),
+      endDate: new Date(),
+      signatureId: signatureId.id,
+      // Status: Entregue
+    },
+    {
+      ...baseOrder,
+      product: 'Teclado Mecânico Custom',
+      canceladedAt: new Date(),
+      // Status: Cancelado / Devolvido
+    },
+  ];
+
+  for (const orderData of ordersToCreate) {
+    await prisma.order.create({ data: orderData });
+  }
+
+  console.log('✅ Massa de testes "Fast Feet" gerada com sucesso!');
 }
 
-seed().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+seed()
+  .then(() => {
+    console.log('🚀 Seed finalizado com sucesso.');
+  })
+  .catch((e) => {
+    console.error('❌ Erro durante a execução do Seed:');
+    console.error(e);
+    process.exit(1);
+  });
