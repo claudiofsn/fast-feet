@@ -3,6 +3,9 @@
 /node_modules
 /build
 
+# Certified
+certbot/
+
 # Logs
 logs
 *.log
