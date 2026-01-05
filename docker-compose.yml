@@ -2,10 +2,7 @@ services:
   api:
     build: .
     restart: always
-    ports:
-      - '${PORT}:${PORT}'
-    env_file:
-      - .env
+    env_file: [.env]
     depends_on:
       db:
         condition: service_healthy
@@ -24,6 +21,17 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    ports:
+      - '80:80'   
+      - '443:443'
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - api
 
 volumes:
   pg_data:
