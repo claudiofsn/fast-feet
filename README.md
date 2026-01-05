@@ -1,98 +1,97 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 📦 Fast Feet API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> Sistema de gestão de encomendas para uma transportadora.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Esta é uma API REST desenvolvida em **NestJS** com alta performance, escalabilidade e arquitetura limpa. O projeto gerencia desde o cadastro de entregadores e destinatários até o fluxo completo de entrega com geolocalização e assinaturas digitais.
 
-## Description
+---
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### 📖 Documentação da API (Swagger)
 
-## Project setup
+Acesse a documentação completa dos endpoints em: [![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)](https://api.fastfeet.claudioneto.dev/docs)
 
-```bash
-$ yarn install
-```
+---
 
-## Compile and run the project
+## 🛠️ Tech Stack
 
-```bash
-# development
-$ yarn run start
+- **Framework:** [NestJS](https://nestjs.com/)
+- **ORM:** [Prisma 7](https://www.prisma.io/)
+- **Banco de Dados:** PostgreSQL (Docker)
+- **Validação:** Zod
+- **Infraestrutura:** AWS EC2 & Docker Compose
+- **Segurança:** SSL (Certbot/Let's Encrypt) & Nginx Reverse Proxy
+- **Armazenamento:** Cloudflare R2 (S3 Compatible)
+- **CI/CD:** GitHub Actions
 
-# watch mode
-$ yarn run start:dev
+---
 
-# production mode
-$ yarn run start:prod
-```
+## 📋 Regras de Negócio & Funcionalidades
 
-## Run tests
+### 🔐 Autenticação & Papéis
 
-```bash
-# unit tests
-$ yarn run test
+- **Administrador:** Gerencia entregadores, destinatários e encomendas.
+- **Entregador:** Visualiza e gerencia suas próprias entregas.
 
-# e2e tests
-$ yarn run test:e2e
+### 🚚 Fluxo de Encomendas
 
-# test coverage
-$ yarn run test:cov
-```
+- **CRUD de Entregadores e Destinatários:** Apenas administradores.
+- **Ciclo de Vida das encomendas:**
+  - `Aguardando Retirada`: Criada pelo admin.
+  - `Em Trânsito`: Marcada por um entregador (`startDate`).
+  - `Entregue`: Confirmada com foto da assinatura (`endDate` + `signatureId`).
+  - `Cancelada/Devolvida`: Marcada em caso de falha (`canceladedAt`).
+- **Geolocalização:** Entregadores só podem visualizar encomendas em um raio de 10km de sua posição atual.
 
-## Deployment
+---
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+## 🚀 Como Executar o Projeto
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### Pré-requisitos
 
-```bash
-$ yarn install -g @nestjs/mau
-$ mau deploy
-```
+- Docker & Docker Compose
+- Node.js (v24 recomendado)
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+### Instalação
 
-## Resources
+1. Clone o repositório:
+   ```bash
+   git clone [https://github.com/claudiofsn/fast-feet.git](https://github.com/claudiofsn/fast-feet.git)
+   cd fast-feet
+   ```
+2. Configure as variáveis de ambiente:
+   ```bash
+   cp .env.example .env
+   ```
+3. Suba o ambiente com Docker:
+   ```bash
+   docker compose up -d
+   ```
+4. Popule o banco de dados (Massa de Testes):
+   ```bash
+   npx prisma db seed
+   ```
 
-Check out a few resources that may come in handy when working with NestJS:
+## 🌐 Deploy & Manutenção
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+A aplicação está em produção em: https://api.fastfeet.claudioneto.dev
 
-## Support
+- Auto-Reset: O banco de dados é resetado e populado com uma massa de testes limpa a cada 2 horas via Cron Job na AWS EC2, garantindo um ambiente de demonstração sempre funcional.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- SSL: Certificado renovado automaticamente via Certbot.
 
-## Stay in touch
+## 🧪 Massa de Testes (Credenciais)
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Para testar as funcionalidades, utilize os dados gerados pelo seed:
 
-## License
+| Role           | Email                     | Senha    | CPF           |
+| :------------- | :------------------------ | :------- | :------------ |
+| **Admin**      | `admin@fastfeet.com`      | `123456` | `11122233344` |
+| **Entregador** | `entregador@fastfeet.com` | `123456` | `55566677788` |
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 👨‍💻 Autor
+
+**Cláudio Neto** - Desenvolvedor Full Stack.
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/claudio-felix)
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=about.me&logoColor=white)](https://claudioneto.dev)

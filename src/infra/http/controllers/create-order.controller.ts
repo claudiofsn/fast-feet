@@ -23,7 +23,6 @@ export class CreateOrderController {
   @Roles(UserRole.ADMIN)
   @ApiOperation({ summary: 'Create a new order' })
   @ApiResponse({ status: 201, description: 'Order created.' })
-  @ApiResponse({ status: 409, description: 'Order already exists.' })
   async handle(@Body() body: CreateOrderDto) {
     await this.createOrder.execute({
       ...body,
