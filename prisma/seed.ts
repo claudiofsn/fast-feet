@@ -4,7 +4,7 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import { hash } from 'bcryptjs';
 import { faker } from '@faker-js/faker';
-import { UniqueEntityID } from '@/core/entities/unique-entity-id';
+import { UniqueEntityID } from '../src/core/entities/unique-entity-id';
 
 function instacePrisma() {
   const connectionString = process.env.DATABASE_URL;
