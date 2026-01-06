@@ -85,8 +85,17 @@ Para testar as funcionalidades, utilize os dados gerados pelo seed:
 
 | Role           | Email                     | Senha    | CPF           |
 | :------------- | :------------------------ | :------- | :------------ |
-| **Admin**      | `admin@fastfeet.com`      | `123456` | `11122233344` |
+| **Admin**      | `admin@fastfeet.com`      | `123456` | `00011122233` |
 | **Entregador** | `entregador@fastfeet.com` | `123456` | `55566677788` |
+
+### 📍 Localização para Testes (Geofencing)
+
+Para testar a rota de **Encomendas Próximas** (`GET /orders/nearby`), utilize as coordenadas abaixo. As ordens foram semeadas na região da Av. Paulista, SP:
+
+- **Latitude:** `-23.56168`
+- **Longitude:** `-46.65591`
+
+> **Dica:** Ao testar no Swagger ou Postman, envie esses valores como query parameters para retornar as ordens em um raio de até 10km.
 
 ## 👨‍💻 Autor
 

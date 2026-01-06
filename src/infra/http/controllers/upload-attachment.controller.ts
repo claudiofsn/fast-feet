@@ -9,14 +9,21 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+  ApiConsumes,
+  ApiBody,
+} from '@nestjs/swagger';
 import { UploadAndCreateAttachmentUseCase } from '@/domain/application/use-cases/upload-and-create-attachment';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard';
 import { RolesGuard } from '@/infra/auth/roles.guard';
 
-@Controller('/attachments')
 @ApiTags('Attachments')
 @ApiBearerAuth()
+@Controller('/attachments')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class UploadAttachmentController {
   constructor(
@@ -25,6 +32,36 @@ export class UploadAttachmentController {
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
+  @ApiOperation({
+    summary: 'Upload an attachment',
+    description:
+      'Uploads a file (signature or document) to the storage service. Allowed types: `png, jpg, jpeg, pdf`. Max size: `5MB`.',
+  })
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        file: {
+          type: 'string',
+          format: 'binary',
+          description: 'The file to be uploaded',
+        },
+      },
+    },
+  })
+  @ApiResponse({
+    status: 201,
+    description: 'File uploaded successfully. Returns the attachment ID.',
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'Bad Request - File too large or invalid file type.',
+  })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized - Missing or invalid token.',
+  })
   async handle(
     @UploadedFile(
       new ParseFilePipe({

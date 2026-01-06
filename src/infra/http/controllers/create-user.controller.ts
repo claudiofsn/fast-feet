@@ -28,8 +28,16 @@ export class CreateUserController {
 
   @Post()
   @Roles(UserRole.ADMIN)
-  @ApiOperation({ summary: 'Create a new user' })
+  @ApiOperation({
+    summary: 'Create a new user',
+    description:
+      'Creates a new user. **Only admins**. The roles can be: `ADMIN` or `DELIVERER`.',
+  })
   @ApiResponse({ status: 201, description: 'User successfully created.' })
+  @ApiResponse({
+    status: 401,
+    description: 'Unauthorized - Missing or invalid token.',
+  })
   @ApiResponse({ status: 409, description: 'User already exists.' })
   async handle(@Body() body: CreateUserDto) {
     const { name, email, cpf, password, roles } = body;

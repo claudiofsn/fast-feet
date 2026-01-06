@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { Encrypter } from '../cryptography/encrypter';
 import { WrongCredentialsError } from './errors/wrong-credentials-error';
 
@@ -10,6 +11,7 @@ interface RefreshTokenUseCaseResponse {
   refreshToken: string;
 }
 
+@Injectable()
 export class RefreshTokenUseCase {
   constructor(private encrypter: Encrypter) {}
 

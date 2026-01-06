@@ -92,9 +92,7 @@ export class PrismaOrdersRepository implements OrdersRepository {
       where: {
         deliverymanId,
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy: [{ endDate: 'desc' }, { createdAt: 'desc' }],
       take: PER_PAGE,
       skip: (page - 1) * PER_PAGE,
     });

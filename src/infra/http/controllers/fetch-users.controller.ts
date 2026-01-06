@@ -6,17 +6,24 @@ import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard';
 import { RolesGuard } from '@/infra/auth/roles.guard';
 import { UserRole } from '@/domain/enterprise/entities/user';
 import { FetchUsersQueryDto } from '../dtos/fetch-users.dto';
-import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 
-@Controller('/users')
 @ApiTags('Users')
 @ApiBearerAuth()
+@Controller('/users')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class FetchUsersController {
   constructor(private fetchUsers: FetchUsersUseCase) {}
 
   @Get()
   @Roles(UserRole.ADMIN)
+  @ApiOperation({ summary: 'Fetch users' })
+  @ApiResponse({ status: 200, description: 'Fetch users.' })
   async handle(@Query() query: FetchUsersQueryDto) {
     const { page } = query;
 

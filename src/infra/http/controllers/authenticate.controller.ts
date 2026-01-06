@@ -26,7 +26,7 @@ export class AuthenticateController {
 
       return {
         access_token: result.accessToken,
-        refresh_token: result.refreshToken, // Snake case é padrão comum em JSONs de OAuth
+        refresh_token: result.refreshToken,
       };
     } catch (error) {
       if (error instanceof WrongCredentialsError) {

@@ -10,22 +10,7 @@ import { JwtAuthGuard } from '@/infra/auth/jwt-auth.guard';
 import { RolesGuard } from '@/infra/auth/roles.guard';
 import { Roles } from '@/infra/auth/roles.decorator';
 import { UserRole } from '@/domain/enterprise/entities/user';
-import { createZodDto } from 'nestjs-zod';
-import { z } from 'zod';
-
-const createRecipientBodySchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  zipCode: z.string(),
-  street: z.string(),
-  number: z.string(),
-  complement: z.string().optional(),
-  neighborhood: z.string(),
-  city: z.string(),
-  state: z.string(),
-});
-
-class CreateRecipientDto extends createZodDto(createRecipientBodySchema) {}
+import { CreateRecipientDto } from '../dtos/create-recipient.dto';
 
 @ApiTags('Recipients')
 @ApiBearerAuth()
