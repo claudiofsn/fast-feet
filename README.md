@@ -40,7 +40,7 @@ Acesse a documentação completa dos endpoints em: [![Swagger](https://img.shiel
   - `Em Trânsito`: Marcada por um entregador (`startDate`).
   - `Entregue`: Confirmada com foto da assinatura (`endDate` + `signatureId`).
   - `Cancelada/Devolvida`: Marcada em caso de falha (`canceladedAt`).
-- **Geolocalização:** Entregadores só podem visualizar encomendas em um raio de 10km de sua posição atual.
+  - **Geolocalização:** Entregadores só podem visualizar encomendas em um raio de 10km de sua posição atual.
 
 ---
 
@@ -54,14 +54,18 @@ Acesse a documentação completa dos endpoints em: [![Swagger](https://img.shiel
 ### Instalação
 
 1. Clone o repositório:
+
    ```bash
    git clone [https://github.com/claudiofsn/fast-feet.git](https://github.com/claudiofsn/fast-feet.git)
    cd fast-feet
    ```
+
 2. Configure as variáveis de ambiente:
+
    ```bash
    cp .env.example .env
    ```
+
 3. Suba o ambiente com Docker:
    ```bash
    docker compose up -d
